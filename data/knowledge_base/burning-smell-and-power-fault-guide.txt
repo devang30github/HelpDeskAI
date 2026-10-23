@@ -1,0 +1,40 @@
+Title: Burning Smell, Sparks, and Power Faults
+Category: facilities_maintenance
+
+[SAMPLE DOCUMENT - synthetic content for the HelpDeskAI project, not an official company policy]
+
+Symptoms and scope
+A user notices a burning smell, sparks, crackling, a hot outlet, flickering lights with odor, or smoke near building equipment.
+
+Troubleshooting procedure
+
+1. Stop using the affected equipment and do not touch the outlet, plug, cable, panel, or nearby metal surface. Warn nearby people and keep them away from the suspected source, maintaining 2 metres of distance if practical.
+
+2. Alert Site Safety immediately through the established on-site emergency route. If smoke, flame, active sparking, or immediate danger is present, follow the site's emergency instructions and leave the affected area as directed. Do not use water on electrical equipment.
+
+3. Do not attempt to reset a breaker, remove a faceplate, unplug a hot connector, or investigate inside a cabinet unless you are the specifically authorized responder. Do not assume a device is safe because the smell fades.
+
+4. Once responders have controlled the hazard and released the area, provide a report with the room label, equipment type, approximate time, visible observations, and whether power was interrupted. Keep the equipment out of service until authorized inspection is complete.
+
+Ownership and handoff
+Site Safety coordinates immediate response. Electrical Services inspects outlets, circuits, and fixed electrical equipment after the hazard is controlled. End User Computing handles a device replacement only after the device is released for handling. The Service Desk records the incident and routes follow-up work.
+
+Escalation and priority
+Immediate safety escalation is required for burning odor, sparks, crackling, smoke, or an unusually hot outlet. Use the emergency route for active smoke, flame, or immediate danger. Do not create a routine maintenance ticket as the only response and do not re-energize the equipment yourself.
+
+Diagnostic details and records
+ELEC-808 means a suspected electrical overheating or arcing condition has been reported. Site Safety has a 5-minute acknowledgement target for this hazard category, but this is not a guarantee of repair or clearance. The area remains restricted until the authorized responder explicitly releases it.
+
+Questions and answers
+
+Q: Can I unplug the device to make it safe?
+A: Do not touch a hot, sparking, or suspect connector. Keep clear and follow responder instructions.
+
+Q: Should I open a facilities ticket first?
+A: Notify Site Safety immediately; routine work-order recording follows once the hazard is controlled.
+
+Ticket quality checklist
+Before submitting, confirm that the report states the observed symptom rather than only a guessed cause. Separate facts from assumptions, include the time and location, and describe the troubleshooting already completed. If a step could expose a person to electrical, battery, water, or moving-equipment hazards, stop and use the safety escalation route instead of continuing. Do not bypass access controls, disable security protections, open sealed equipment, or use another person's account. A support team may ask for additional evidence, but provide it only through the approved company channel and only when it is needed to diagnose the issue.
+
+Expected outcome
+A successful first-line check should either restore the affected function or narrow the fault to a specific service, device, destination, or building component. If the result is unchanged, preserve the original error text and report which numbered steps were completed. Do not repeat a failed action indefinitely; use the stated escalation condition and let the owning team continue diagnosis.

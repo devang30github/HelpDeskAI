@@ -1,0 +1,40 @@
+Title: Remote Access Tunnel Troubleshooting
+Category: network_wifi
+
+[SAMPLE DOCUMENT - synthetic content for the HelpDeskAI project, not an official company policy]
+
+Symptoms and scope
+A user can browse the internet but cannot reach internal Meridian Works resources while working away from an office site.
+
+Troubleshooting procedure
+
+1. First verify that the device can load an ordinary public website. If it cannot, resolve the local internet or Wi-Fi issue before troubleshooting the remote tunnel. A working wireless icon alone is not proof that internet access is available.
+
+2. Open Meridian Tunnel from the approved applications menu and check the displayed connection state. Sign in using the user's own account and complete the configured verification prompt. Never approve an unexpected prompt or share a one-time code with a caller.
+
+3. If the client reports a temporary gateway response, disconnect once, wait 60 seconds, and reconnect. Repeated rapid retries can obscure the first useful diagnostic message. Capture the exact message and the local time if the second attempt fails.
+
+4. After the tunnel reports connected, open the Meridian Start page and then the internal application that originally failed. If the landing page opens but one application does not, record the application name; do not assume the tunnel itself is broken.
+
+Ownership and handoff
+The Service Desk handles client checks and collects diagnostic details. Network Operations owns tunnel gateways and route availability. The application owner handles a single internal application that fails while the landing page and other approved services work.
+
+Escalation and priority
+Use medium priority when one user cannot establish a tunnel after two attempts. Use high priority if a team-wide remote access outage blocks scheduled work. Use critical only when a confirmed remote-access failure is part of a broader incident with immediate business-safety impact, and follow the incident coordinator's instructions.
+
+Diagnostic details and records
+VPN-612 is defined here as a remote gateway handshake timeout after local internet access has been confirmed. Include client version, operating system, approximate time, whether the public internet worked, and whether the Meridian Start page opened. Do not attach configuration files containing secrets.
+
+Questions and answers
+
+Q: Can I use the visitor network to reach internal systems?
+A: No. Meridian-Visitor is intended for visitor internet access and does not provide staff access.
+
+Q: How long can an idle tunnel remain connected?
+A: The session idle limit is 30 minutes. If the tunnel closes after inactivity, reconnect and repeat the internal landing-page check.
+
+Ticket quality checklist
+Before submitting, confirm that the report states the observed symptom rather than only a guessed cause. Separate facts from assumptions, include the time and location, and describe the troubleshooting already completed. If a step could expose a person to electrical, battery, water, or moving-equipment hazards, stop and use the safety escalation route instead of continuing. Do not bypass access controls, disable security protections, open sealed equipment, or use another person's account. A support team may ask for additional evidence, but provide it only through the approved company channel and only when it is needed to diagnose the issue.
+
+Expected outcome
+A successful first-line check should either restore the affected function or narrow the fault to a specific service, device, destination, or building component. If the result is unchanged, preserve the original error text and report which numbered steps were completed. Do not repeat a failed action indefinitely; use the stated escalation condition and let the owning team continue diagnosis.

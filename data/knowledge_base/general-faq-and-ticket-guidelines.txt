@@ -1,0 +1,40 @@
+Title: General Helpdesk FAQ and Ticket Guidelines
+Category: general
+
+[SAMPLE DOCUMENT - synthetic content for the HelpDeskAI project, not an official company policy]
+
+Symptoms and scope
+A user is unsure which support route to choose, what details to include, or how urgently to report an issue.
+
+Troubleshooting procedure
+
+1. Open Meridian Help Point and select the closest service category. Describe what you expected, what happened instead, when it started, the affected location or application, and whether the issue affects only you or multiple people.
+
+2. Include reproducible steps and the exact on-screen message when available. Include device asset labels or room labels where relevant. Do not include passwords, one-time codes, private keys, or unnecessary confidential content. Use the approved secure attachment route when a support team explicitly needs sensitive evidence.
+
+3. Choose priority based on impact and urgency, not personal seniority. Low is a minor issue with a practical workaround. Medium affects one user or a limited workflow without immediate broad impact. High affects multiple users or blocks a time-sensitive business function. Critical is reserved for an active major outage or immediate safety/security event under the incident coordinator's direction.
+
+4. After submission, keep the ticket reference and add new evidence to the same ticket instead of creating duplicates. If the issue changes materially, update the impact and affected-user count. Follow the specialist safety instructions for hazards; a normal ticket is not a substitute for immediate safety notification.
+
+Ownership and handoff
+The Service Desk triages and routes requests. Specialist teams own their technical domains: Network Operations for wireless and remote connectivity; End User Computing for managed devices and software packaging; Collaboration Services for mail services and shared collaboration resources; Identity Operations for sign-in and roles; Office Equipment Support for printers and scanners; Facilities Maintenance and Site Safety for building faults and hazards.
+
+Escalation and priority
+Meridian Help Point acknowledgement targets are low 1 business day, medium 4 business hours, high 30 minutes, and critical 10 minutes. These are acknowledgement targets, not resolution commitments. Any immediate physical hazard or suspected account compromise must be reported through its designated urgent route without waiting for portal acknowledgement.
+
+Diagnostic details and records
+TKT-101 means a submitted ticket is missing one or more minimum triage details: impact, start time, affected service or location, or a clear description of the observed result. Add the missing details to the existing ticket. Ticket retention is 180 days after closure for routine service records; restricted incident records may follow a separate approved retention schedule.
+
+Questions and answers
+
+Q: Should I open a new ticket for every update?
+A: No. Add updates to the existing ticket unless the Service Desk instructs you to create a separate request.
+
+Q: Does acknowledgement mean the issue is fixed?
+A: No. Acknowledgement confirms that the ticket has been received; resolution time depends on the issue and responsible team.
+
+Ticket quality checklist
+Before submitting, confirm that the report states the observed symptom rather than only a guessed cause. Separate facts from assumptions, include the time and location, and describe the troubleshooting already completed. If a step could expose a person to electrical, battery, water, or moving-equipment hazards, stop and use the safety escalation route instead of continuing. Do not bypass access controls, disable security protections, open sealed equipment, or use another person's account. A support team may ask for additional evidence, but provide it only through the approved company channel and only when it is needed to diagnose the issue.
+
+Expected outcome
+A successful first-line check should either restore the affected function or narrow the fault to a specific service, device, destination, or building component. If the result is unchanged, preserve the original error text and report which numbered steps were completed. Do not repeat a failed action indefinitely; use the stated escalation condition and let the owning team continue diagnosis.

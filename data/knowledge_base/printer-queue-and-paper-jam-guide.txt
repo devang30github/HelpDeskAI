@@ -1,0 +1,40 @@
+Title: Printer Queue and Paper Jam Guide
+Category: printing_office_equipment
+
+[SAMPLE DOCUMENT - synthetic content for the HelpDeskAI project, not an official company policy]
+
+Symptoms and scope
+A print job remains pending, prints blank pages, or the printer reports a paper jam.
+
+Troubleshooting procedure
+
+1. Confirm the selected printer name and check whether it matches the room label. In Meridian Print Lane, verify the job status and refresh the queue. Allow up to 2 minutes for a queued job to update before resubmitting it.
+
+2. Check the device display for the indicated tray or door. Follow the printer's user-accessible jam instructions only. Open only panels marked for routine user access and remove paper gently in the direction shown by the device. Never use a tool to reach into rollers.
+
+3. If the queue is stuck, cancel only your own duplicate job and submit one test page. Do not clear the entire shared queue, because that can remove other employees' jobs. Check paper size and tray selection if output is blank, clipped, or on the wrong stock.
+
+4. If the jam cannot be cleared through the marked user-accessible area, close the panels and stop. Record the printer room label and displayed message for the support ticket.
+
+Ownership and handoff
+The Service Desk handles queue selection, duplicate jobs, and basic checks. Office Equipment Support handles persistent jams, rollers, toner, and device faults. Facilities handles room power or building damage but does not manage print queues.
+
+Escalation and priority
+Use low priority for one delayed print job with another printer available. Use medium priority if a shared printer remains unusable after the safe checks. Use high priority if a designated operational print station is unavailable for a time-critical process. Stop and escalate immediately if there is smoke, burning odor, sparking, or unusual heat.
+
+Diagnostic details and records
+PRN-117 means the print service queue has not updated a job state after refresh. Job records are retained for 8 hours, after which the service may remove them automatically. Include printer label, queue name, job time, and whether other users are affected. Do not print sensitive documents as a test.
+
+Questions and answers
+
+Q: Can I open the rear service panel?
+A: Only open panels marked for routine user access. Leave service panels to trained support.
+
+Q: Does scanning use the same queue?
+A: Scanning is a separate function and may fail even when printing works; report the scan destination and exact device message.
+
+Ticket quality checklist
+Before submitting, confirm that the report states the observed symptom rather than only a guessed cause. Separate facts from assumptions, include the time and location, and describe the troubleshooting already completed. If a step could expose a person to electrical, battery, water, or moving-equipment hazards, stop and use the safety escalation route instead of continuing. Do not bypass access controls, disable security protections, open sealed equipment, or use another person's account. A support team may ask for additional evidence, but provide it only through the approved company channel and only when it is needed to diagnose the issue.
+
+Expected outcome
+A successful first-line check should either restore the affected function or narrow the fault to a specific service, device, destination, or building component. If the result is unchanged, preserve the original error text and report which numbered steps were completed. Do not repeat a failed action indefinitely; use the stated escalation condition and let the owning team continue diagnosis.

@@ -1,0 +1,40 @@
+Title: Wi-Fi Connection Troubleshooting Guide
+Category: network_wifi
+
+[SAMPLE DOCUMENT - synthetic content for the HelpDeskAI project, not an official company policy]
+
+Symptoms and scope
+A notebook shows connected to Meridian-Staff but pages do not load, or it repeatedly asks for the wireless passphrase.
+
+Troubleshooting procedure
+
+1. Confirm the device is within the normal office coverage area and that airplane mode is off. Check whether another approved device can reach the internal landing page. If every device in the same area fails, record the floor and nearest room label because the access-point team may need to inspect coverage.
+
+2. Select Meridian-Staff, forget only that saved network profile, then reconnect using the current fictional staff-network credentials supplied through the approved onboarding channel. Do not try Meridian-Visitor for internal applications; it is isolated from staff resources.
+
+3. Turn Wi-Fi off for 10 seconds and turn it back on. If the device receives no usable network address, renew its network lease using the operating system's standard network settings, then wait 90 seconds before testing again.
+
+4. Open the Meridian Start page and one ordinary public website. Record whether both fail or only internal resources fail. A working public site with a failing internal resource may indicate an access or service issue rather than a radio connection issue.
+
+Ownership and handoff
+The Service Desk owns device-side checks and ticket intake. Network Operations owns access points, staff wireless authentication infrastructure, and repeated area-wide failures. Facilities does not troubleshoot wireless credentials.
+
+Escalation and priority
+Raise a medium-priority ticket if one device remains disconnected after the steps above or the issue lasts more than 15 minutes. Raise high priority when at least five users in one work area lose staff Wi-Fi at the same time. Report suspected electrical damage, heat, or a burning smell through the safety route immediately rather than continuing network tests.
+
+Diagnostic details and records
+The fictional diagnostic code WIFI-214 means the device joined the wireless radio but did not obtain a usable network lease after renewal. Include the device asset label, operating system, floor, approximate start time, and whether nearby users are affected. Do not include passwords or authentication tokens in the ticket.
+
+Questions and answers
+
+Q: Does Wi-Fi working mean the VPN is working?
+A: No. Wi-Fi connects the device to the local network. Remote access through the fictional Meridian Tunnel is a separate service and has its own checks.
+
+Q: Should I reset every network setting?
+A: No. Start with the saved Meridian-Staff profile and lease renewal. A full network reset can remove other approved profiles and is not a first-line step.
+
+Ticket quality checklist
+Before submitting, confirm that the report states the observed symptom rather than only a guessed cause. Separate facts from assumptions, include the time and location, and describe the troubleshooting already completed. If a step could expose a person to electrical, battery, water, or moving-equipment hazards, stop and use the safety escalation route instead of continuing. Do not bypass access controls, disable security protections, open sealed equipment, or use another person's account. A support team may ask for additional evidence, but provide it only through the approved company channel and only when it is needed to diagnose the issue.
+
+Expected outcome
+A successful first-line check should either restore the affected function or narrow the fault to a specific service, device, destination, or building component. If the result is unchanged, preserve the original error text and report which numbered steps were completed. Do not repeat a failed action indefinitely; use the stated escalation condition and let the owning team continue diagnosis.

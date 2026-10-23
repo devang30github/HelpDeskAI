@@ -1,7 +1,11 @@
+
 def test_health_and_ready(client):
     assert client.get("/health").json() == {"status": "ok"}
-    assert client.get("/ready").status_code == 200
-
+    r = client.get("/ready")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["database"] == "ok"
+    assert body["index"]["built"] is False  # no index in the test environment
 
 def test_create_ticket_has_required_fields(client, ticket_payload):
     r = client.post("/api/tickets", json=ticket_payload)

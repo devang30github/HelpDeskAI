@@ -3,6 +3,8 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
+from app.core.config import get_settings
+from app.rag.vector_store import index_status
 
 router = APIRouter(tags=["health"])
 
@@ -18,5 +20,6 @@ def ready(db: Session = Depends(get_db)) -> dict:
         db.execute(text("SELECT 1"))
     except Exception:
         raise HTTPException(503, "Database not ready")
-    # Stage 2 adds the vector index check here
-    return {"status": "ready", "database": "ok"}
+    idx = index_status(get_settings().index_dir)
+    # Ticketing works without an index; chat (Stage 3) will need it, hence "degraded".
+    return {"status": "ready" if idx["built"] else "degraded", "database": "ok", "index": idx}
