@@ -5,23 +5,31 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from app.core.constants import TEAM_MEMBERS, Category, Priority, Status
 
 
-class TicketCreate(BaseModel):
+class TicketCreateIn(BaseModel):
+    """What a client may send. The requester is taken from the login token."""
+
     title: str = Field(min_length=5, max_length=200)
     description: str = Field(min_length=10, max_length=5000)
     category: Category
     priority: Priority = Priority.MEDIUM
-    requester: str = Field(min_length=1, max_length=120)
     conversation_id: str | None = Field(default=None, max_length=64)
     transcript_summary: str | None = Field(default=None, max_length=8000)
-    idempotency_key: str | None = Field(default=None, max_length=128)
+    idempotency_key: str | None = Field(default=None, max_length=64)
 
-    @field_validator("title", "description", "requester")
+    @field_validator("title", "description")
     @classmethod
     def strip_text(cls, v: str) -> str:
         v = v.strip()
         if not v:
             raise ValueError("must not be blank")
         return v
+
+
+class TicketCreate(TicketCreateIn):
+    """Internal model used by the ticket service (includes the authenticated requester)."""
+
+    requester: str = Field(min_length=1, max_length=120)
+    idempotency_key: str | None = Field(default=None, max_length=128)  # "<username>:<client key>"
 
 
 class TicketUpdate(BaseModel):
