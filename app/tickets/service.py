@@ -10,8 +10,7 @@ from sqlalchemy.orm import Session
 from app.core.constants import ALLOWED_TRANSITIONS, SLA_HOURS, Status
 from app.core.timeutils import utcnow
 from app.models.ticket import Ticket
-from app.schemas.ticket import TicketCreate, TicketUpdate
-
+from app.schemas.ticket import TicketCreate, TicketCreateIn, TicketUpdate
 
 class TicketNotFound(Exception):
     pass
@@ -66,6 +65,17 @@ def create_ticket(db: Session, data: TicketCreate) -> tuple[Ticket, bool]:
                 return existing, False
         raise
     return ticket, True
+
+def create_ticket_for_user(db: Session, username: str, payload: TicketCreateIn) -> tuple[Ticket, bool]:
+    """Single entry point for employee-created tickets (used by the REST API and by chat).
+    The requester always comes from the authenticated user, and the idempotency key is
+    scoped to that user so two users can never collide on the same key."""
+    data = TicketCreate(
+        **payload.model_dump(exclude={"idempotency_key"}),
+        requester=username,
+        idempotency_key=f"{username}:{payload.idempotency_key}" if payload.idempotency_key else None,
+    )
+    return create_ticket(db, data)
 
 
 def get_ticket(db: Session, ticket_id: str) -> Ticket:

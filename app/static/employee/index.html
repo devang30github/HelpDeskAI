@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HelpDeskAI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="login-view" class="login" hidden>
+    <h1>HelpDeskAI</h1>
+    <p class="muted">Sign in to get IT and facilities support.</p>
+    <form id="login-form">
+      <label for="username">Username</label>
+      <input id="username" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <p id="login-error" class="error" role="alert"></p>
+      <button type="submit" class="primary">Sign in</button>
+    </form>
+  </main>
+
+  <div id="chat-view" class="chat" hidden>
+    <header>
+      <div><strong>HelpDeskAI</strong> <span id="who" class="muted"></span></div>
+      <div class="actions">
+        <button id="new-chat" type="button">New chat</button>
+        <button id="logout" type="button">Sign out</button>
+      </div>
+    </header>
+    <div id="messages" role="log" aria-live="polite"></div>
+    <div id="quick" class="quick"></div>
+    <form id="composer">
+      <textarea id="input" rows="1" maxlength="2000" aria-label="Message"
+                placeholder="Describe your IT or facilities issue..."></textarea>
+      <button id="send" type="submit" class="primary">Send</button>
+    </form>
+    <p class="hint">Answers come from the company knowledge base. Check the cited sources for important steps.</p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

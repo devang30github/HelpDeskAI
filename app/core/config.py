@@ -39,6 +39,8 @@ class Settings(BaseSettings):
     groq_max_retries: int = 2
     llm_temperature: float = 0.0
     llm_max_tokens: int = 2048        # includes reasoning tokens for gpt-oss models
+    intent_max_tokens: int = 768      # budget for the small intent-classification call
+    history_messages: int = 6         # recent Q&A messages passed into the RAG prompt
 
 
 @lru_cache

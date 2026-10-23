@@ -61,3 +61,8 @@ def test_timeout_is_mapped_to_llm_error():
     err = openai.APITimeoutError(request=httpx.Request("POST", "https://example.invalid"))
     with pytest.raises(LLMError, match="timed out"):
         GroqLLM(_settings(), client=FakeClient(error=err)).complete([])
+
+def test_max_tokens_override():
+    client = FakeClient(_response())
+    GroqLLM(_settings(), client=client).complete([], max_tokens=77)
+    assert client.calls[0]["max_completion_tokens"] == 77

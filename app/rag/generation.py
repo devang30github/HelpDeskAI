@@ -35,8 +35,7 @@ class LLMResult:
 class LLMClient(Protocol):
     model: str
 
-    def complete(self, messages: list[dict]) -> LLMResult: ...
-
+    def complete(self, messages: list[dict], max_tokens: int | None = None) -> LLMResult: ...
     def config(self) -> dict: ...
 
 
@@ -64,13 +63,13 @@ class GroqLLM:
             "reasoning_effort": s.groq_reasoning_effort or None,
         }
 
-    def complete(self, messages: list[dict]) -> LLMResult:
+    def complete(self, messages: list[dict], max_tokens: int | None = None) -> LLMResult:
         s = self.settings
         kwargs: dict = {
             "model": s.groq_model,
             "messages": messages,
             "temperature": s.llm_temperature,
-            "max_completion_tokens": s.llm_max_tokens,
+            "max_completion_tokens": max_tokens or s.llm_max_tokens,
         }
         if s.groq_reasoning_effort:
             kwargs["extra_body"] = {"reasoning_effort": s.groq_reasoning_effort}

@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_current_user, get_db, require_admin
 from app.core.constants import CATEGORY_LABELS, TEAM_MEMBERS, Category, Priority, Status
 from app.models.user import User
-from app.schemas.ticket import TicketCreate, TicketCreateIn, TicketOut, TicketUpdate
+
+from app.schemas.ticket import TicketCreateIn, TicketOut, TicketUpdate
 from app.tickets import service
 
 router = APIRouter(prefix="/api", tags=["tickets"])
@@ -20,7 +21,6 @@ def meta() -> dict:
         "team_members": TEAM_MEMBERS,
     }
 
-
 @router.post("/tickets", response_model=TicketOut, status_code=201)
 def create_ticket(
     payload: TicketCreateIn,
@@ -28,15 +28,7 @@ def create_ticket(
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    data = TicketCreate(
-        **payload.model_dump(exclude={"idempotency_key"}),
-        requester=user.username,
-        # Scope the key to the user so two users can never collide on the same key.
-        idempotency_key=(
-            f"{user.username}:{payload.idempotency_key}" if payload.idempotency_key else None
-        ),
-    )
-    ticket, created = service.create_ticket(db, data)
+    ticket, created = service.create_ticket_for_user(db, user.username, payload)
     if not created:
         response.status_code = 200  # duplicate request: return the existing ticket
     return ticket
