@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, get_db, require_admin
-from app.core.constants import CATEGORY_LABELS, TEAM_MEMBERS, Category, Priority, Status
+from app.core.constants import CATEGORY_LABELS, TEAM_MEMBERS, Category, Priority, Status,ALLOWED_TRANSITIONS
 from app.models.user import User
 
 from app.schemas.ticket import TicketCreateIn, TicketOut, TicketUpdate
@@ -19,6 +19,9 @@ def meta() -> dict:
         "priorities": [p.value for p in Priority],
         "statuses": [s.value for s in Status],
         "team_members": TEAM_MEMBERS,
+                "status_transitions": {
+            s.value: sorted(t.value for t in ALLOWED_TRANSITIONS[s]) for s in Status
+        },
     }
 
 @router.post("/tickets", response_model=TicketOut, status_code=201)

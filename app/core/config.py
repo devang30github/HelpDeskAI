@@ -29,6 +29,8 @@ class Settings(BaseSettings):
     chunk_overlap: int = 120   # characters
     retrieval_top_k: int = 4
     retriever_name: str = "dense_v1"
+    warmup_on_startup: bool = True    # load the model and index when the server starts
+    kb_max_upload_mb: float = 10.0
 
     # --- LLM via Groq's OpenAI-compatible API (Stage 3) ---
     groq_api_key: str = ""

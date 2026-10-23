@@ -3,11 +3,11 @@ after validating inputs through the Pydantic schemas."""
 from datetime import timedelta
 from uuid import uuid4
 
-from sqlalchemy import or_, select
+from sqlalchemy import func,or_, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app.core.constants import ALLOWED_TRANSITIONS, SLA_HOURS, Status
+from app.core.constants import ALLOWED_TRANSITIONS, SLA_HOURS, Category, Priority, Status
 from app.core.timeutils import utcnow
 from app.models.ticket import Ticket
 from app.schemas.ticket import TicketCreate, TicketCreateIn, TicketUpdate
@@ -100,7 +100,9 @@ def list_tickets(
         stmt = stmt.where(Ticket.priority == priority)
     if status:
         stmt = stmt.where(Ticket.status == status)
-    if assignee:
+    if assignee == "unassigned":
+        stmt = stmt.where(Ticket.assignee.is_(None))
+    elif assignee:
         stmt = stmt.where(Ticket.assignee == assignee)
     if q:
         like = f"%{q.strip()}%"
@@ -131,3 +133,22 @@ def update_ticket(db: Session, ticket_id: str, data: TicketUpdate) -> Ticket:
 
     db.commit()
     return ticket
+
+def ticket_stats(db: Session) -> dict:
+    def grouped(column, values) -> dict[str, int]:
+        counts = dict(db.execute(select(column, func.count(Ticket.id)).group_by(column)).all())
+        return {v.value: int(counts.get(v.value, 0)) for v in values}  # zero-filled
+
+    active = [Status.OPEN.value, Status.IN_PROGRESS.value]
+    return {
+        "total": int(db.scalar(select(func.count(Ticket.id))) or 0),
+        "by_status": grouped(Ticket.status, Status),
+        "by_priority": grouped(Ticket.priority, Priority),
+        "by_category": grouped(Ticket.category, Category),
+        "overdue": int(db.scalar(
+            select(func.count(Ticket.id)).where(Ticket.due_at < utcnow(), Ticket.status.in_(active))
+        ) or 0),
+        "unassigned_open": int(db.scalar(
+            select(func.count(Ticket.id)).where(Ticket.assignee.is_(None), Ticket.status.in_(active))
+        ) or 0),
+    }

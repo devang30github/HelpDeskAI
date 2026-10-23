@@ -5,12 +5,14 @@ from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.concurrency import run_in_threadpool
 
-from app.api import auth, chat, health, tickets
+from app.api import admin, auth, chat, health, tickets
 from app.core.config import get_settings
 from app.database.session import init_db
 from app.rag.generation import LLMError
 from app.rag.vector_store import IndexCorrupt, IndexMismatch, IndexNotFound
+from app.rag.warmup import warm_up
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -24,6 +26,8 @@ async def lifespan(app: FastAPI):
     init_db()
     if len(settings.jwt_secret) < 32:
         logger.warning("JWT_SECRET is missing or shorter than 32 characters; employee login is disabled")
+    if settings.warmup_on_startup:
+        await run_in_threadpool(warm_up)  # cold start happens here, not on the first user query
     yield
 
 
@@ -54,8 +58,10 @@ app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(tickets.router)
 app.include_router(chat.router)
+app.include_router(admin.router)
 
 app.mount("/employee", StaticFiles(directory=STATIC_DIR / "employee", html=True), name="employee")
+app.mount("/admin", StaticFiles(directory=STATIC_DIR / "admin", html=True), name="admin")
 
 
 @app.get("/", include_in_schema=False)

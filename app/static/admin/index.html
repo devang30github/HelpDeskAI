@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HelpDeskAI Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="gate" class="gate" hidden>
+    <h1>HelpDeskAI Admin</h1>
+    <p class="muted">Development-only access with a shared admin key. A production deployment requires real authentication, authorization and secure session handling.</p>
+    <form id="gate-form">
+      <label for="admin-key">Admin key</label>
+      <input id="admin-key" type="password" autocomplete="off" required>
+      <p id="gate-error" class="error" role="alert"></p>
+      <button type="submit" class="primary">Enter</button>
+    </form>
+  </main>
+
+  <div id="app" hidden>
+    <header class="topbar">
+      <strong>HelpDeskAI Admin</strong>
+      <nav>
+        <button class="tab active" data-tab="tickets" type="button">Tickets</button>
+        <button class="tab" data-tab="kb" type="button">Knowledge base</button>
+      </nav>
+      <button id="signout" type="button">Sign out</button>
+    </header>
+
+    <section id="tab-tickets" class="page">
+      <div id="stats" class="stats"></div>
+      <p id="prio-summary" class="muted"></p>
+      <div class="filters">
+        <input id="f-q" type="search" placeholder="Search by ticket ID or title" aria-label="Search tickets">
+        <select id="f-category" aria-label="Category"></select>
+        <select id="f-priority" aria-label="Priority"></select>
+        <select id="f-status" aria-label="Status"></select>
+        <select id="f-assignee" aria-label="Assignee"></select>
+        <button id="refresh" type="button">Refresh</button>
+      </div>
+      <p id="ticket-count" class="muted"></p>
+      <div id="ticket-list" class="cards"></div>
+    </section>
+
+    <section id="tab-kb" class="page" hidden>
+      <div id="kb-banner" class="banner"></div>
+      <div class="kb-actions">
+        <form id="upload-form" class="upload">
+          <input type="file" id="kb-file" accept=".pdf,.docx,.txt,.md" required>
+          <label class="inline"><input type="checkbox" id="kb-replace"> Replace if it exists</label>
+          <button class="primary" type="submit">Upload</button>
+        </form>
+        <button id="reindex-btn" class="primary" type="button">Rebuild index</button>
+      </div>
+      <p id="kb-msg" class="muted" role="status"></p>
+      <div id="kb-table"></div>
+    </section>
+
+    <aside id="detail" class="drawer" hidden aria-label="Ticket details">
+      <div class="drawer-head">
+        <strong id="detail-id"></strong>
+        <button id="detail-close" type="button">Close</button>
+      </div>
+      <div id="detail-body"></div>
+    </aside>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

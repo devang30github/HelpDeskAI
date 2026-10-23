@@ -8,6 +8,8 @@ os.environ["ADMIN_API_KEY"] = "test-admin-key"
 os.environ["INDEX_DIR"] = f"{_tmp}/index"
 os.environ["JWT_SECRET"] = "test-jwt-secret-0123456789-abcdefghijklmnop"
 os.environ["GROQ_API_KEY"] = ""  # tests must never call the real LLM
+os.environ["KB_DIR"] = f"{_tmp}/kb"
+os.environ["WARMUP_ON_STARTUP"] = "false"
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
@@ -76,3 +78,17 @@ def ticket_payload():
         "category": "network_wifi",
         "priority": "high",
     }
+
+@pytest.fixture(autouse=True)
+def clean_kb_and_index():
+    import shutil
+
+    from app.core.config import get_settings
+    from app.services.kb_admin import reindexer
+
+    s = get_settings()
+    for d in (s.kb_dir, s.index_dir):
+        shutil.rmtree(d, ignore_errors=True)
+    s.kb_dir.mkdir(parents=True, exist_ok=True)
+    reindexer.reset()
+    yield

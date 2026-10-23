@@ -24,7 +24,8 @@ def _slug(stem: str) -> str:
 
 
 def _read_txt(path: Path) -> str:
-    return path.read_text(encoding="utf-8", errors="replace")
+    return path.read_text(encoding="utf-8-sig", errors="replace")
+    
 
 
 def _read_pdf(path: Path) -> str:
@@ -74,7 +75,24 @@ def _candidate_files(kb_dir: Path) -> list[Path]:
         for p in Path(kb_dir).iterdir()
         if p.is_file() and not p.name.startswith((".", "_")) and not p.name.lower().startswith("readme")
     )
+    
+def list_kb_files(kb_dir: Path) -> list[Path]:
+    """Supported knowledge-base files that the indexer will pick up."""
+    kb_dir = Path(kb_dir)
+    if not kb_dir.exists():
+        return []
+    return [p for p in _candidate_files(kb_dir) if p.suffix.lower() in SUPPORTED_EXTENSIONS]
 
+
+def doc_id_for(filename: str) -> str:
+    return _slug(Path(filename).stem)
+
+
+def read_document_text(path: Path) -> str:
+    ext = Path(path).suffix.lower()
+    if ext not in _READERS:
+        raise ValueError(f"unsupported extension '{ext}'")
+    return _normalize(_READERS[ext](Path(path)))
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()

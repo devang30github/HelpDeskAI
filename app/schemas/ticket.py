@@ -1,7 +1,6 @@
 from datetime import datetime
-
-from pydantic import BaseModel, ConfigDict, Field, field_validator
-
+from pydantic import BaseModel, ConfigDict, Field, computed_field, field_validator
+from app.core.timeutils import utcnow
 from app.core.constants import TEAM_MEMBERS, Category, Priority, Status
 
 
@@ -63,3 +62,11 @@ class TicketOut(BaseModel):
     created_at: datetime
     updated_at: datetime
     due_at: datetime | None
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def is_overdue(self) -> bool:
+        return (
+            self.due_at is not None
+            and self.status in (Status.OPEN, Status.IN_PROGRESS)
+            and self.due_at < utcnow()
+        )
