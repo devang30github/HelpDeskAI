@@ -44,6 +44,13 @@ class Settings(BaseSettings):
     intent_max_tokens: int = 768      # budget for the small intent-classification call
     history_messages: int = 6         # recent Q&A messages passed into the RAG prompt
 
+    # --- Evaluation (Stage 5) ---
+    ragas_judge_model: str = "openai/gpt-oss-120b"
+    ragas_embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"  # pinned separately from retrieval
+    ragas_max_tokens: int = 4096
+    ragas_timeout_seconds: float = 120.0
+    ragas_concurrency: int = 4
+
 
 @lru_cache
 def get_settings() -> Settings:
