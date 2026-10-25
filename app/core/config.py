@@ -1,6 +1,6 @@
 from functools import lru_cache
 from pathlib import Path
-
+import re
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parents[2]
@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     groq_api_key: str = ""
     groq_base_url: str = "https://api.groq.com/openai/v1"
     groq_model: str = "openai/gpt-oss-20b"
+    groq_api_keys: str = ""   # optional: several keys separated by commas, used round-robin
     groq_reasoning_effort: str = ""   # optional: "low" | "medium" | "high"; blank = provider default
     groq_timeout_seconds: float = 30.0
     groq_max_retries: int = 2
@@ -50,6 +51,12 @@ class Settings(BaseSettings):
     ragas_max_tokens: int = 4096
     ragas_timeout_seconds: float = 120.0
     ragas_concurrency: int = 4
+
+    def groq_key_list(self) -> list[str]:
+        keys: list[str] = []
+        for raw in (self.groq_api_keys, self.groq_api_key):
+            keys += [k for k in re.split(r"[,\s]+", raw or "") if k]
+        return list(dict.fromkeys(keys))  # de-duplicated, order preserved
 
 
 @lru_cache

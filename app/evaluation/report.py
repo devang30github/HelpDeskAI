@@ -21,7 +21,43 @@ def _table(headers: list[str], rows: list[list]) -> str:
     lines = ["| " + " | ".join(headers) + " |", "| " + " | ".join("---" for _ in headers) + " |"]
     lines += ["| " + " | ".join(str(c) for c in row) + " |" for row in rows]
     return "\n".join(lines)
-
+def _extra_sections(summary: dict) -> list[str]:
+    lines: list[str] = []
+    ragas = summary.get("ragas")
+    if ragas:
+        judge = ragas["judge"]
+        family = "yes (scores may be inflated)" if judge["same_family_as_generator"] else "no"
+        lines += ["", "## RAGAS (LLM-judge scores)", "",
+                  f"- Judge `{judge['judge_model']}` via {judge['judge_base_url']} (ragas {judge['ragas_version']}); "
+                  f"answer-relevancy embeddings `{judge['judge_embedding_model']}`",
+                  f"- Same model family as the generator: **{family}**", ""]
+        lines.append(_table(["metric", "scored", "failed", "skipped", "mean", "median"],
+                            [[n, m["n_scored"], m["n_failed"], m["n_skipped"], _f(m["mean"]), _f(m["median"])]
+                             for n, m in ragas["metrics"].items()]))
+        lines += ["", "Denominators: faithfulness and answer relevancy are scored on answerable questions the system answered; "
+                      "context precision and recall on answerable questions with a successful generation (retrieved contexts and "
+                      "reference answer). Skips and failures, with reasons, are in `ragas_scores.jsonl`. These are judge scores, "
+                      "not verified ground truth."]
+    t = summary.get("tickets")
+    if t:
+        lines += ["", f"## Ticket flow ({t['n_scenarios']} scenarios, {t['n_unvalidated']} not yet hand-validated)", "",
+                  f"- Creation success rate: {_f(t['creation_success_rate'])} ({t['n_created']}/{t['n_scenarios']} scenarios ended with a persisted ticket)",
+                  f"- Required-field completeness: {_f(t['completeness_rate'])} ({t['n_complete']}/{t['n_created']} created tickets)",
+                  f"- End-to-end category agreement: {_f(t['category_agreement'])} (created tickets whose category equals the expected one)",
+                  f"- Mean turns to create: {_f(t['mean_turns'], 1)}"]
+        lines += [f"- Failed `{f['id']}`: {f['reason']}" for f in t["failures"]]
+    c = summary.get("classification")
+    if c:
+        lines += ["", f"## Category classification ({c['n']} examples scored, {c['n_errors']} LLM errors excluded, "
+                      f"{c['n_unclassified']} unclassified counted as wrong; {c['n_unvalidated']} not yet hand-validated)", "",
+                  f"- Accuracy {_f(c['accuracy'])} | macro precision {_f(c['macro_precision'])} | "
+                  f"macro recall {_f(c['macro_recall'])} | macro F1 {_f(c['macro_f1'])}", ""]
+        lines.append(_table(["category", "precision", "recall", "F1", "support"],
+                            [[n, _f(v["precision"]), _f(v["recall"]), _f(v["f1"]), v["support"]]
+                             for n, v in c["per_class"].items()]))
+        if c["confusions"]:
+            lines += ["", "Most common mistakes: " + "; ".join(f"{k} ({v})" for k, v in list(c["confusions"].items())[:8])]
+    return lines
 
 def write_report(summary: dict, run_config: dict, path: Path) -> None:
     counts, retr = summary["counts"], summary["retrieval"]
@@ -89,5 +125,7 @@ def write_report(summary: dict, run_config: dict, path: Path) -> None:
         lines += ["", "## Review manually: abstained although the knowledge base can answer", ""]
         lines += [f"- `{r['id']}` {r['question']}\n  > {r['answer']}" for r in review["false_abstentions"][:20]]
 
+    lines += _extra_sections(summary)
     lines += ["", "## Metric definitions and denominators", "", DEFINITIONS]
+
     Path(path).write_text("\n".join(lines) + "\n", encoding="utf-8")

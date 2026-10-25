@@ -10,6 +10,7 @@ os.environ["JWT_SECRET"] = "test-jwt-secret-0123456789-abcdefghijklmnop"
 os.environ["GROQ_API_KEY"] = ""  # tests must never call the real LLM
 os.environ["KB_DIR"] = f"{_tmp}/kb"
 os.environ["WARMUP_ON_STARTUP"] = "false"
+os.environ["GROQ_API_KEYS"] = ""
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402

@@ -1,0 +1,28 @@
+{"id":"c01","split":"dev","text":"The office wifi keeps dropping every few minutes on my laptop","expected_category":"network_wifi","validated":true}
+{"id":"c02","split":"dev","text":"I can't connect to the VPN from home, it just times out","expected_category":"network_wifi","validated":true}
+{"id":"c03","split":"test","text":"internet is really slow on the third floor and some pages won't load","expected_category":"network_wifi","validated":true}
+{"id":"c04","split":"test","text":"my phone connects to the guest network but not the staff one","expected_category":"network_wifi","validated":true}
+{"id":"c05","split":"dev","text":"My laptop battery looks swollen and the case is bulging","expected_category":"hardware_peripherals","validated":true}
+{"id":"c06","split":"dev","text":"The external monitor says no signal when I plug in the dock","expected_category":"hardware_peripherals","validated":true}
+{"id":"c07","split":"test","text":"Keyboard keys stopped responding after I spilled water on it","expected_category":"hardware_peripherals","validated":true}
+{"id":"c08","split":"test","text":"my usb headset isn't detected anymore and the mouse pointer freezes randomly","expected_category":"hardware_peripherals","validated":true}
+{"id":"c09","split":"dev","text":"I need Adobe Acrobat Pro installed on my machine for contract reviews","expected_category":"software_applications","validated":true}
+{"id":"c10","split":"dev","text":"The accounting application crashes as soon as I open a large report","expected_category":"software_applications","validated":true}
+{"id":"c11","split":"test","text":"I get a license error saying no seats are available when I start the design tool","expected_category":"software_applications","validated":true}
+{"id":"c12","split":"test","text":"Can someone install the data analysis package on my workstation? I need it for a project","expected_category":"software_applications","validated":true}
+{"id":"c13","split":"dev","text":"Outlook has stopped syncing and my new mail isn't showing up","expected_category":"email_collaboration","validated":true}
+{"id":"c14","split":"dev","text":"I get a message that my mailbox is full and I can't send emails","expected_category":"email_collaboration","validated":true}
+{"id":"c15","split":"test","text":"The meeting link in my calendar invite does not open and I'm joining in ten minutes","expected_category":"email_collaboration","validated":true}
+{"id":"c16","split":"test","text":"I can't see the shared team mailbox in my Outlook anymore","expected_category":"email_collaboration","validated":true}
+{"id":"c17","split":"dev","text":"I forgot my password and the reset page isn't sending me a code","expected_category":"account_access","validated":true}
+{"id":"c18","split":"dev","text":"My account is locked after too many failed login attempts","expected_category":"account_access","validated":true}
+{"id":"c19","split":"test","text":"I need read access to the finance team's shared folder for the audit","expected_category":"account_access","validated":true}
+{"id":"c20","split":"test","text":"I got a new phone and can't approve the multi factor prompt anymore","expected_category":"account_access","validated":true}
+{"id":"c21","split":"dev","text":"The printer on floor 2 shows offline and nothing prints","expected_category":"printing_office_equipment","validated":true}
+{"id":"c22","split":"dev","text":"There is a paper jam in tray 2 and the error won't clear","expected_category":"printing_office_equipment","validated":true}
+{"id":"c23","split":"test","text":"Scan to email isn't arriving in my inbox from the copier","expected_category":"printing_office_equipment","validated":true}
+{"id":"c24","split":"test","text":"The printer is out of toner and the supplies cupboard is empty","expected_category":"printing_office_equipment","validated":true}
+{"id":"c25","split":"dev","text":"The air conditioning in our section is freezing, everyone is cold","expected_category":"facilities_maintenance","validated":true}
+{"id":"c26","split":"dev","text":"Two ceiling lights in meeting room B are flickering and one has failed","expected_category":"facilities_maintenance","validated":true}
+{"id":"c27","split":"test","text":"There is water leaking from the ceiling near the power sockets in the corridor","expected_category":"facilities_maintenance","validated":true}
+{"id":"c28","split":"test","text":"My desk chair is broken and the height lever no longer works","expected_category":"facilities_maintenance","validated":true}

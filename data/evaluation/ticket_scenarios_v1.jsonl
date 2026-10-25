@@ -1,0 +1,10 @@
+{"id":"t01","split":"dev","problem":"VPN fails with a timeout error whenever I work from home and I've tried restarting the client.","expected_category":"network_wifi","validated":true}
+{"id":"t02","split":"dev","problem":"My laptop will not charge even with a different charger and the battery feels hot.","expected_category":"hardware_peripherals","validated":true}
+{"id":"t03","split":"dev","problem":"The design software shows a license seat unavailable error every morning when I open it.","expected_category":"software_applications","validated":true}
+{"id":"t04","split":"dev","problem":"Outlook keeps showing working offline and my calendar invites are not arriving.","expected_category":"email_collaboration","validated":true}
+{"id":"t05","split":"dev","problem":"My account got locked and the self service portal says it can't verify my phone.","expected_category":"account_access","validated":true}
+{"id":"t06","split":"test","problem":"The printer on the second floor jams in tray 2 every time we print double sided.","expected_category":"printing_office_equipment","validated":true}
+{"id":"t07","split":"test","problem":"The meeting room on the fourth floor is far too hot and the thermostat is locked.","expected_category":"facilities_maintenance","validated":true}
+{"id":"t08","split":"test","problem":"Wi-Fi in the east wing disconnects whenever I move between desks and several colleagues see it too.","expected_category":"network_wifi","validated":true}
+{"id":"t09","split":"test","problem":"I need edit access to the shared project folder and my manager has approved it.","expected_category":"account_access","validated":true}
+{"id":"t10","split":"test","problem":"The docking station stopped detecting both of my monitors after the latest update.","expected_category":"hardware_peripherals","validated":true}

@@ -1,7 +1,8 @@
 """Pure metric functions (no I/O, no LLM) so they are fully unit-testable."""
-import math
+import math 
+import random
+from collections import Counter
 from statistics import mean, median
-
 
 def hit_at_k(retrieved_doc_ids: list[str], relevant: set[str], k: int) -> float:
     return 1.0 if any(d in relevant for d in retrieved_doc_ids[:k]) else 0.0
@@ -57,3 +58,50 @@ def estimate_cost(prompt_tokens: int, completion_tokens: int, pricing: dict | No
     if price_in is None or price_out is None:
         return None
     return (prompt_tokens * price_in + completion_tokens * price_out) / 1_000_000
+
+def classification_report(y_true: list[str], y_pred: list[str], labels: list[str]) -> dict:
+    """Accuracy plus per-class precision/recall/F1. Precision, recall and F1 are 0 when undefined.
+    Macro averages cover only classes that have at least one true example."""
+    n = len(y_true)
+    per_class = {}
+    for label in labels:
+        tp = sum(1 for t, p in zip(y_true, y_pred) if t == label and p == label)
+        fp = sum(1 for t, p in zip(y_true, y_pred) if t != label and p == label)
+        fn = sum(1 for t, p in zip(y_true, y_pred) if t == label and p != label)
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+        per_class[label] = {"precision": precision, "recall": recall, "f1": f1, "support": tp + fn}
+    scored = [v for v in per_class.values() if v["support"] > 0]
+    confusions = Counter(f"{t} -> {p}" for t, p in zip(y_true, y_pred) if t != p)
+    return {
+        "n": n,
+        "accuracy": sum(t == p for t, p in zip(y_true, y_pred)) / n if n else None,
+        "per_class": per_class,
+        "macro_precision": mean(v["precision"] for v in scored) if scored else None,
+        "macro_recall": mean(v["recall"] for v in scored) if scored else None,
+        "macro_f1": mean(v["f1"] for v in scored) if scored else None,
+        "confusions": dict(confusions.most_common()),
+    }
+
+
+def paired_bootstrap(a: dict[str, float], b: dict[str, float], n_boot: int = 5000, seed: int = 0) -> dict:
+    """Paired bootstrap over questions present in both runs. diff = B - A."""
+    ids = sorted(set(a) & set(b))
+    if not ids:
+        return {"n": 0, "mean_a": None, "mean_b": None, "diff": None, "ci_low": None, "ci_high": None,
+                "wins": 0, "losses": 0, "ties": 0}
+    diffs = [b[i] - a[i] for i in ids]
+    rng = random.Random(seed)
+    means = sorted(mean(rng.choices(diffs, k=len(diffs))) for _ in range(n_boot))
+    return {
+        "n": len(ids),
+        "mean_a": mean(a[i] for i in ids),
+        "mean_b": mean(b[i] for i in ids),
+        "diff": mean(diffs),
+        "ci_low": means[int(0.025 * n_boot)],
+        "ci_high": means[int(0.975 * n_boot) - 1],
+        "wins": sum(d > 0 for d in diffs),
+        "losses": sum(d < 0 for d in diffs),
+        "ties": sum(d == 0 for d in diffs),
+    }

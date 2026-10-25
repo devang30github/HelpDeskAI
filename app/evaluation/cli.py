@@ -5,7 +5,6 @@ import logging
 import platform
 import re
 import subprocess
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -38,6 +37,37 @@ def _versions(names: list[str]) -> dict:
     return out
 
 
+def _resolve_run_dir(arg: str, out_dir: str) -> Path | None:
+    for candidate in (Path(arg), Path(out_dir) / arg, BASE_DIR / "reports" / "baselines" / arg):
+        if (candidate / "config.json").exists():
+            return candidate
+    return None
+
+
+def _run_extras(run_dir: Path, *, ragas: bool, tickets: bool, classification: bool, allow_unvalidated: bool) -> int:
+    from app.evaluation import extras
+
+    stages = []
+    if ragas:
+        stages.append(("RAGAS", lambda: extras.apply_ragas(run_dir, progress=print)))
+    if tickets:
+        stages.append(("Ticket flow", lambda: extras.apply_tickets(run_dir, allow_unvalidated, progress=print)))
+    if classification:
+        stages.append(("Classification", lambda: extras.apply_classification(run_dir, allow_unvalidated, progress=print)))
+
+    status = 0
+    for name, stage in stages:
+        print(f"\n{name} evaluation...")
+        try:
+            stage()
+        except Exception as e:
+            print(f"{name} evaluation failed: {type(e).__name__}: {e}")
+            if name == "RAGAS":
+                print("Run `python -m scripts.check_ragas` to diagnose the RAGAS wiring.")
+            status = 1
+    return status
+
+
 def run_cli(argv: list[str], cfg: dict, cfg_path: str) -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     for noisy in ("httpx", "httpx2", "httpcore", "huggingface_hub", "sentence_transformers", "openai"):
@@ -50,11 +80,35 @@ def run_cli(argv: list[str], cfg: dict, cfg_path: str) -> int:
     parser.add_argument("--name", default=cfg.get("name", "run"))
     parser.add_argument("--limit", type=int, help="only the first N selected questions")
     parser.add_argument("--retrieval-only", action="store_true", help="deterministic retrieval metrics, no LLM calls")
+    parser.add_argument("--ragas", action="store_true", help="score the generations with RAGAS (LLM judge)")
+    parser.add_argument("--tickets", action="store_true", help="evaluate the ticket flow (uses the LLM)")
+    parser.add_argument("--classification", action="store_true", help="evaluate category classification (uses the LLM)")
+    parser.add_argument("--all", action="store_true", help="shorthand for --ragas --tickets --classification")
+    parser.add_argument("--rescore", metavar="RUN", help="run the selected add-on stages on an existing run (default: RAGAS)")
     parser.add_argument("--sleep", type=float, default=0.0, help="seconds between LLM calls (rate limits)")
     parser.add_argument("--allow-unvalidated", action="store_true")
     parser.add_argument("--allow-kb-mismatch", action="store_true")
     parser.add_argument("--out-dir", default=str(BASE_DIR / "reports" / "runs"))
     args = parser.parse_args(argv)
+
+    want_ragas, want_tickets, want_class = (args.ragas or args.all, args.tickets or args.all,
+                                            args.classification or args.all)
+
+    if args.rescore:
+        run_dir = _resolve_run_dir(args.rescore, args.out_dir)
+        if run_dir is None:
+            print(f"Could not find a run folder for '{args.rescore}'")
+            return 1
+        if not (want_ragas or want_tickets or want_class):
+            want_ragas = True
+        status = _run_extras(run_dir, ragas=want_ragas, tickets=want_tickets, classification=want_class,
+                             allow_unvalidated=args.allow_unvalidated)
+        print(f"\nReport: {run_dir / 'report.md'}")
+        return status
+
+    if args.retrieval_only and want_ragas:
+        print("--ragas needs generations; drop --retrieval-only.")
+        return 1
 
     settings = get_settings()
     try:
@@ -133,7 +187,8 @@ def run_cli(argv: list[str], cfg: dict, cfg_path: str) -> int:
             "python": platform.python_version(),
             "platform": platform.platform(),
             "git": _git_info(),
-            "packages": _versions(["faiss-cpu", "sentence-transformers", "openai", "ragas", "numpy"]),
+            "packages": _versions(["faiss-cpu", "sentence-transformers", "openai", "ragas", "instructor",
+                                   "langchain-community", "numpy"]),
         },
     }
 
@@ -145,13 +200,17 @@ def run_cli(argv: list[str], cfg: dict, cfg_path: str) -> int:
         pricing=cfg.get("pricing"), sleep=args.sleep, progress=print,
     )
 
-    overall = summary["retrieval"]["overall"]
-    hk = settings.retrieval_top_k
+    overall, hk = summary["retrieval"]["overall"], settings.retrieval_top_k
     print(f"\nRetrieval (N={summary['retrieval']['n']}): Hit@{hk} {overall.get(f'hit@{hk}', float('nan')):.3f}  "
           f"MRR@{hk} {overall.get(f'mrr@{hk}', float('nan')):.3f}")
     if "abstention" in summary:
         ab = summary["abstention"]
         print(f"Abstention recall {ab['abstention_recall']}  false abstention rate {ab['false_abstention_rate']}")
         print(f"Generation: {summary['generation']['n_ok']} ok, {summary['generation']['n_failed']} failed")
+
+    status = 0
+    if want_ragas or want_tickets or want_class:
+        status = _run_extras(out_dir, ragas=want_ragas, tickets=want_tickets, classification=want_class,
+                             allow_unvalidated=args.allow_unvalidated)
     print(f"\nReport:  {out_dir / 'report.md'}\nArtifacts in {out_dir}")
-    return 0
+    return status

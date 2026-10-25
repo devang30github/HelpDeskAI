@@ -1,7 +1,7 @@
 import pytest
 
 from app.evaluation import metrics as M
-
+import random
 
 def test_hit_and_reciprocal_rank():
     docs = ["b", "a", "c", "a"]
@@ -49,3 +49,27 @@ def test_estimate_cost():
     assert M.estimate_cost(1_000_000, 500_000, pricing) == pytest.approx(2.0)
     assert M.estimate_cost(10, 10, {"input_per_million_usd": None, "output_per_million_usd": 2.0}) is None
     assert M.estimate_cost(10, 10, None) is None
+
+def test_classification_report():
+    labels = ["a", "b", "c"]
+    y_true = ["a", "a", "b", "b", "c"]
+    y_pred = ["a", "b", "b", "b", "none"]
+    r = M.classification_report(y_true, y_pred, labels)
+    assert r["accuracy"] == pytest.approx(3 / 5)
+    assert r["per_class"]["a"] == {"precision": 1.0, "recall": 0.5, "f1": pytest.approx(2 / 3), "support": 2}
+    assert r["per_class"]["b"]["precision"] == pytest.approx(2 / 3) and r["per_class"]["b"]["recall"] == 1.0
+    assert r["per_class"]["c"] == {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 1}  # "none" never matches
+    assert r["macro_f1"] == pytest.approx((2 / 3 + 0.8 + 0.0) / 3)
+    assert r["confusions"]["a -> b"] == 1 and r["confusions"]["c -> none"] == 1
+
+
+def test_paired_bootstrap_detects_a_clear_gain_and_a_tie():
+    a = {f"q{i}": 0.0 if i < 10 else 1.0 for i in range(20)}
+    b = {f"q{i}": 1.0 for i in range(20)}
+    r = M.paired_bootstrap(a, b, n_boot=2000, seed=1)
+    assert r["diff"] == pytest.approx(0.5) and r["wins"] == 10 and r["losses"] == 0 and r["ci_low"] > 0
+
+    tie = M.paired_bootstrap({"q1": 1.0, "q2": 0.0, "q3": 1.0, "q4": 0.0},
+                             {"q1": 0.0, "q2": 1.0, "q3": 1.0, "q4": 0.0}, n_boot=2000, seed=1)
+    assert tie["diff"] == 0 and tie["ci_low"] <= 0 <= tie["ci_high"]
+    assert M.paired_bootstrap({}, {"q": 1.0})["n"] == 0
