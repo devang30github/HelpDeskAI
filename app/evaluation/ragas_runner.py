@@ -7,8 +7,7 @@ from statistics import mean, median
 import itertools
 from app.core.config import get_settings
 from app.evaluation.dataset import EvalItem
-from app.evaluation.ragas_setup import METRIC_NAMES, build_metrics, describe_judge
-
+from app.evaluation.ragas_setup import METRIC_NAMES, build_metrics_pool, describe_judge
 logger = logging.getLogger(__name__)
 
 

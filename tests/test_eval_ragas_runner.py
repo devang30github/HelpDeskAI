@@ -77,3 +77,8 @@ def test_rate_limited_metric_fails_over_to_the_next_key():
     rows = asyncio.run(score_generations([_item("q1")], [_gen("q1")], pool, concurrency=1))
     assert rows[0]["scores"]["faithfulness"] == 0.5
     assert "faithfulness" not in rows[0]["errors"]
+
+def test_score_run_dependencies_are_importable():
+    from app.evaluation import ragas_runner
+
+    assert callable(ragas_runner.build_metrics_pool) and ragas_runner.itertools is not None
