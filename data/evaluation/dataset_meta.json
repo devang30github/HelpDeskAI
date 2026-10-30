@@ -1,9 +1,9 @@
 {
   "dataset_name": "helpdesk-qa",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Questions over the synthetic Meridian Works helpdesk knowledge base.",
   "origin_note": "Candidate questions were drafted with an LLM from the knowledge base and coverage map, then validated by hand. Reference answers were not produced by the model under evaluation.",
-  "split_policy": "dev is used for debugging; test is frozen and only used for the final V1 and V2 reports.",
+  "split_policy": "dev holds every question written for v1.0 (all were seen with V1 outputs). test holds only questions written after V1 was frozen, and is run once per system.",
   "kb_files": {
     "account-lockout-and-signin-guide.pdf": "b874bf704bb11a5744665f26b31b2a8e246294885162052393fe6bd94d321a39",
     "application-crash-and-cache-guide.docx": "f4f5597ef49deb26f9310b5fede36799f0a784c093d630925dfe0d3281fa69b8",
