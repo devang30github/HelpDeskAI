@@ -81,10 +81,12 @@ class RAGPipeline:
 
     def config(self) -> dict:
         llm_config = self.llm.config() if hasattr(self.llm, "config") else {"model": self.llm.model}
+        retriever_name = getattr(self.retriever, "name", type(self.retriever).__name__)
         return {
-            "pipeline": "baseline_rag_v1",
+            "pipeline": f"rag/{retriever_name}/prompt-{PROMPT_VERSION}",
             "prompt_version": PROMPT_VERSION,
-            "retriever": getattr(self.retriever, "name", type(self.retriever).__name__),
+            "retriever": retriever_name,
+            "retriever_params": getattr(self.retriever, "params", None),
             "top_k": self.top_k,
             "llm": llm_config,
             **self._extra_config,

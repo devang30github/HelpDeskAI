@@ -1,5 +1,7 @@
 """Measure retrieval latency.   python -m scripts.bench_retrieval -n 30
-Reports the cold first call, then median/p95 for embedding, FAISS search and the total."""
+   RETRIEVER_NAME=hybrid_rrf_v2 python -m scripts.bench_retrieval -n 30
+Reports the cold first call, then median/p95 for each stage. For the hybrid retriever the dense
+part, the BM25 part and the full retrieve() are timed separately."""
 import argparse
 import statistics
 import sys
@@ -40,28 +42,40 @@ def main() -> int:
         print("No index found. Run: python -m scripts.ingest")
         return 1
 
+    name = getattr(retriever, "name", type(retriever).__name__)
+    dense = getattr(retriever, "dense", retriever)  # the hybrid retriever wraps a dense one
+    bm25 = getattr(retriever, "bm25", None)
+    pool = max(getattr(retriever, "candidate_k", k), k)
+    print(f"retriever: {name} | top_k={k}" + (f" | candidate pool {pool}" if bm25 else ""))
+
     t = time.perf_counter()
     retriever.retrieve(QUERIES[0], k)
     print(f"cold first call: {ms(t):.0f} ms (model load + first search)")
 
-    embed, search, total = [], [], []
+    stages: dict[str, list[float]] = {"embed": [], "faiss search": []}
+    if bm25:
+        stages["bm25 search"] = []
+    stages["retrieve total"] = []
+
     for i in range(args.n):
         q = QUERIES[i % len(QUERIES)]
         t = time.perf_counter()
-        vec = retriever.embedder.encode([q])[0]
-        e = ms(t)
+        vec = dense.embedder.encode([q])[0]
+        stages["embed"].append(ms(t))
         t = time.perf_counter()
-        retriever.store.search(vec, k)
-        s = ms(t)
-        embed.append(e)
-        search.append(s)
+        dense.store.search(vec, k)
+        stages["faiss search"].append(ms(t))
+        if bm25:
+            t = time.perf_counter()
+            bm25.search(q, pool)
+            stages["bm25 search"].append(ms(t))
         t = time.perf_counter()
         retriever.retrieve(q, k)
-        total.append(ms(t))
+        stages["retrieve total"].append(ms(t))
 
-    print(f"\n{args.n} warm queries (top_k={k}):")
-    for name, vals in (("embed", embed), ("faiss search", search), ("retrieve total", total)):
-        print(f"  {name:<15} median {statistics.median(vals):6.1f} ms   p95 {pct(vals, 95):6.1f} ms")
+    print(f"\n{args.n} warm queries:")
+    for stage, vals in stages.items():
+        print(f"  {stage:<15} median {statistics.median(vals):6.1f} ms   p95 {pct(vals, 95):6.1f} ms")
     return 0
 
 

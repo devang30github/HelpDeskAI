@@ -1,0 +1,7 @@
+retriever: dense_v1 | top_k=4
+cold first call: 7109 ms (model load + first search)
+
+30 warm queries:
+  embed           median   12.8 ms   p95   15.6 ms
+  faiss search    median    0.1 ms   p95    1.8 ms
+  retrieve total  median   12.9 ms   p95   17.8 ms
