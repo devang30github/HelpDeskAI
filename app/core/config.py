@@ -45,6 +45,13 @@ class Settings(BaseSettings):
     intent_max_tokens: int = 768      # budget for the small intent-classification call
     history_messages: int = 6         # recent Q&A messages passed into the RAG prompt
 
+    # --- V2: prompt version and hybrid retrieval ---
+    prompt_version: str = "v1"        # "v1" or "v2"
+    hybrid_rrf_k: int = 60
+    hybrid_candidate_k: int = 20
+    bm25_k1: float = 1.5
+    bm25_b: float = 0.75
+
     # --- Evaluation (Stage 5) ---
     ragas_judge_model: str = "openai/gpt-oss-120b"
     ragas_embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"  # pinned separately from retrieval

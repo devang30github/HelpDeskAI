@@ -70,6 +70,7 @@ def _build_dense(settings: Settings) -> Retriever:
 
 
 def get_retriever(name: str | None = None) -> Retriever:
+    from app.rag import hybrid 
     settings = get_settings()
     name = name or settings.retriever_name
     if name not in _REGISTRY:

@@ -1,0 +1,217 @@
+{
+  "run_id": "20261102-100717-v1-final",
+  "counts": {
+    "items": 44,
+    "answerable": 30,
+    "unanswerable": 14,
+    "unvalidated": 0
+  },
+  "retrieval": {
+    "k_values": [
+      1,
+      3,
+      4,
+      5,
+      10
+    ],
+    "headline_k": 4,
+    "n": 30,
+    "overall": {
+      "n": 30,
+      "hit@1": 0.9666666666666667,
+      "mrr@1": 0.9666666666666667,
+      "hit@3": 1.0,
+      "mrr@3": 0.9777777777777777,
+      "hit@4": 1.0,
+      "mrr@4": 0.9777777777777777,
+      "hit@5": 1.0,
+      "mrr@5": 0.9777777777777777,
+      "hit@10": 1.0,
+      "mrr@10": 0.9777777777777777
+    },
+    "by_type": {
+      "ambiguous": {
+        "n": 4,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "confusable": {
+        "n": 8,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "direct": {
+        "n": 4,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "error_code": {
+        "n": 6,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "multi_chunk": {
+        "n": 8,
+        "hit@4": 1.0,
+        "mrr@4": 0.9166666666666666
+      }
+    },
+    "by_category": {
+      "account_access": {
+        "n": 3,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "email_collaboration": {
+        "n": 5,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "facilities_maintenance": {
+        "n": 5,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "general": {
+        "n": 2,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "hardware_peripherals": {
+        "n": 4,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "network_wifi": {
+        "n": 3,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "printing_office_equipment": {
+        "n": 3,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "software_applications": {
+        "n": 5,
+        "hit@4": 1.0,
+        "mrr@4": 0.8666666666666667
+      }
+    }
+  },
+  "generation": {
+    "n_attempted": 44,
+    "n_ok": 44,
+    "n_failed": 0,
+    "failures": []
+  },
+  "abstention": {
+    "n_unanswerable": 14,
+    "n_answerable": 30,
+    "correct_abstentions": 14,
+    "unsupported_answers": 0,
+    "false_abstentions": 1,
+    "total_abstentions": 15,
+    "abstention_recall": 1.0,
+    "false_abstention_rate": 0.03333333333333333,
+    "abstention_precision": 0.9333333333333333
+  },
+  "latency_ms": {
+    "retrieval (eval pass)": {
+      "n": 44,
+      "median": 20.640464999985397,
+      "p95": 212.295145999974,
+      "mean": 62.778665659093036,
+      "max": 658.538367999995
+    },
+    "retrieval (in pipeline)": {
+      "n": 44,
+      "median": 18.16466700000774,
+      "p95": 21.254960000078427,
+      "mean": 18.887516227284674,
+      "max": 37.66833600002428
+    },
+    "generation": {
+      "n": 44,
+      "median": 943.1380759999684,
+      "p95": 2631.312087000083,
+      "mean": 1180.6661577727275,
+      "max": 3661.404980000043
+    },
+    "total": {
+      "n": 44,
+      "median": 959.3119170000364,
+      "p95": 2649.413255000013,
+      "mean": 1199.7662879999987,
+      "max": 3682.8549690000045
+    }
+  },
+  "efficiency": {
+    "n_questions": 44,
+    "prompt_tokens": 49942,
+    "completion_tokens": 19809,
+    "total_tokens": 69751,
+    "avg_total_tokens": 1585.25,
+    "pricing": {
+      "input_per_million_usd": null,
+      "output_per_million_usd": null
+    },
+    "estimated_cost_usd": null
+  },
+  "manual_review": {
+    "unsupported_answers": [],
+    "false_abstentions": [
+      {
+        "id": "q071",
+        "question": "What is the maximum wait for a DHCP renewal during the office wireless checks?",
+        "answer": "The provided excerpts do not specify a maximum wait time for DHCP renewal during office wireless checks.  \n\nGeneral suggestion (not from company documentation): Typically, DHCP renewals should complete within a few seconds to a minute under normal network conditions, but you may want to consult your"
+      }
+    ]
+  },
+  "ragas": {
+    "judge": {
+      "ragas_version": "0.4.3",
+      "judge_model": "openai/gpt-oss-120b",
+      "judge_base_url": "https://api.groq.com/openai/v1",
+      "judge_embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "judge_max_tokens": 4096,
+      "judge_api_keys": 9,
+      "same_family_as_generator": true
+    },
+    "concurrency": 4,
+    "metrics": {
+      "faithfulness": {
+        "n_scored": 29,
+        "n_failed": 0,
+        "n_skipped": 15,
+        "mean": 0.8209629451008761,
+        "median": 0.8571428571428571,
+        "failures": []
+      },
+      "answer_relevancy": {
+        "n_scored": 29,
+        "n_failed": 0,
+        "n_skipped": 15,
+        "mean": 0.6147821962824094,
+        "median": 0.6380003961303801,
+        "failures": []
+      },
+      "context_precision": {
+        "n_scored": 30,
+        "n_failed": 0,
+        "n_skipped": 14,
+        "mean": 0.8009259258869136,
+        "median": 0.9999999999,
+        "failures": []
+      },
+      "context_recall": {
+        "n_scored": 30,
+        "n_failed": 0,
+        "n_skipped": 14,
+        "mean": 0.8555555555555555,
+        "median": 1.0,
+        "failures": []
+      }
+    }
+  }
+}

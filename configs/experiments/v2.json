@@ -1,0 +1,14 @@
+{
+  "name": "v2",
+  "description": "Hybrid retrieval (dense + BM25 fused with RRF, k=60) and answer prompt v2",
+  "retriever": "hybrid_rrf_v2",
+  "top_k": 4,
+  "retrieval_eval_k": 10,
+  "prompt_version": "v2",
+  "hybrid": {"rrf_k": 60, "candidate_k": 20, "bm25_k1": 1.5, "bm25_b": 0.75},
+  "index_dir": null,
+  "pricing": {
+    "input_per_million_usd": null,
+    "output_per_million_usd": null
+  }
+}

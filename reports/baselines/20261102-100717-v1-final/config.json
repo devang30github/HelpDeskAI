@@ -1,0 +1,122 @@
+{
+  "run_id": "20261102-100717-v1-final",
+  "created_utc": "2026-11-02T10:07:17+00:00",
+  "name": "v1-final",
+  "split": "test",
+  "retrieval_only": false,
+  "limit": null,
+  "experiment_config_path": "configs/experiments/v1_baseline.json",
+  "experiment_config": {
+    "name": "v1-baseline",
+    "description": "Dense-only retrieval (FAISS cosine) with baseline prompt v1",
+    "retriever": "dense_v1",
+    "top_k": 4,
+    "retrieval_eval_k": 10,
+    "index_dir": null,
+    "pricing": {
+      "input_per_million_usd": null,
+      "output_per_million_usd": null
+    }
+  },
+  "dataset": {
+    "path": "data/evaluation/qa_v1_1.jsonl",
+    "version": "1.1",
+    "file_sha256": "1c0a54866acd512497e5112b5e82fb1a3f91fd6e224a0ad0c3a2add54892e5ae",
+    "label_hash": "770ad0c4f3b59ee91d1cc89f77ed2a6badcaa0e8edc23411cc74ab6f45cebc89",
+    "items": 44
+  },
+  "kb": {
+    "pin_ok": true,
+    "pin_problems": [],
+    "indexed_files": {
+      "account-lockout-and-signin-guide.pdf": "b874bf704bb11a5744665f26b31b2a8e246294885162052393fe6bd94d321a39",
+      "application-crash-and-cache-guide.docx": "f4f5597ef49deb26f9310b5fede36799f0a784c093d630925dfe0d3281fa69b8",
+      "application-permission-request-guide.docx": "0ae14491adda2991c0c76cf86a4ae088c1dbf971aa7c72d305d5af28ac93d349",
+      "burning-smell-and-power-fault-guide.txt": "30343e960981d1439a7d83aa7170aad0ae59e586f0c4d4c99e5ce732eab3e251",
+      "email-delivery-and-sync-guide.pdf": "f4b2121a8716d3fc01f80c38b39c0040a2102f89b44a670b87e2f7bf093f6f5e",
+      "general-faq-and-ticket-guidelines.txt": "a69b90b0af522e6cf22425bcf2a0f53478a13ac38e3f827d1981792096d85b6a",
+      "laptop-docking-and-display-guide.pdf": "08abc9986f6bc1756a2f622d8d46ef82c365832205eb2770c39090f792628dff",
+      "printer-queue-and-paper-jam-guide.txt": "50e43ed9bd06911678c06ebd397ab7c4c4ad6db1d15a06013c8b43e52cd90744",
+      "remote-access-vpn-guide.txt": "e33e6b9aad24589a39cd1f31eddd7b9021e0323ec7882911508127082484e587",
+      "scanner-and-copier-guide.pdf": "caa8c388a6dbf09a7611c1bbf3af00ab401e37e1113a644aadae9675fc083aee",
+      "shared-mailbox-and-distribution-list-guide.docx": "b80e19d34128fde49798a026345db1cd98041e7ed88f539f75e636bd49435941",
+      "software-installation-and-update-guide.pdf": "a43390a2d55f7a060f4ba8599d8c38f82774b361dd20d827dc136ce38a796418",
+      "swollen-battery-device-safety.docx": "81c02c4ab500cc821e2d93d1d9eba033f4877065ec6f6e3ef2b2557cf1e6b4fa",
+      "water-leak-and-electrical-safety-guide.docx": "24a8e218ecedcb30d7b60158f86e20b05cb172263694b317219d30e5e4a025b5",
+      "wifi-connection-troubleshooting-guide.txt": "f4f6a2f22d5f84bc1904d886bd45384471346bece6c2b431a19baf424a5081b0"
+    }
+  },
+  "index": {
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "chunk_size": 800,
+    "chunk_overlap": 120,
+    "built_at": "2026-10-23T18:50:48+00:00"
+  },
+  "retrieval": {
+    "retriever": "dense_v1",
+    "top_k": 4,
+    "eval_k": 10
+  },
+  "generation": {
+    "pipeline": "rag/dense_v1/prompt-v1",
+    "prompt_version": "v1",
+    "retriever": "dense_v1",
+    "retriever_params": null,
+    "top_k": 4,
+    "llm": {
+      "model": "openai/gpt-oss-20b",
+      "temperature": 0.1,
+      "max_tokens": 4096,
+      "reasoning_effort": null,
+      "api_keys": 9
+    },
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "chunk_size": 800,
+    "chunk_overlap": 120,
+    "index_built_at": "2026-10-23T18:50:48+00:00",
+    "kb_files": {
+      "account-lockout-and-signin-guide.pdf": "b874bf704bb11a5744665f26b31b2a8e246294885162052393fe6bd94d321a39",
+      "application-crash-and-cache-guide.docx": "f4f5597ef49deb26f9310b5fede36799f0a784c093d630925dfe0d3281fa69b8",
+      "application-permission-request-guide.docx": "0ae14491adda2991c0c76cf86a4ae088c1dbf971aa7c72d305d5af28ac93d349",
+      "burning-smell-and-power-fault-guide.txt": "30343e960981d1439a7d83aa7170aad0ae59e586f0c4d4c99e5ce732eab3e251",
+      "email-delivery-and-sync-guide.pdf": "f4b2121a8716d3fc01f80c38b39c0040a2102f89b44a670b87e2f7bf093f6f5e",
+      "general-faq-and-ticket-guidelines.txt": "a69b90b0af522e6cf22425bcf2a0f53478a13ac38e3f827d1981792096d85b6a",
+      "laptop-docking-and-display-guide.pdf": "08abc9986f6bc1756a2f622d8d46ef82c365832205eb2770c39090f792628dff",
+      "printer-queue-and-paper-jam-guide.txt": "50e43ed9bd06911678c06ebd397ab7c4c4ad6db1d15a06013c8b43e52cd90744",
+      "remote-access-vpn-guide.txt": "e33e6b9aad24589a39cd1f31eddd7b9021e0323ec7882911508127082484e587",
+      "scanner-and-copier-guide.pdf": "caa8c388a6dbf09a7611c1bbf3af00ab401e37e1113a644aadae9675fc083aee",
+      "shared-mailbox-and-distribution-list-guide.docx": "b80e19d34128fde49798a026345db1cd98041e7ed88f539f75e636bd49435941",
+      "software-installation-and-update-guide.pdf": "a43390a2d55f7a060f4ba8599d8c38f82774b361dd20d827dc136ce38a796418",
+      "swollen-battery-device-safety.docx": "81c02c4ab500cc821e2d93d1d9eba033f4877065ec6f6e3ef2b2557cf1e6b4fa",
+      "water-leak-and-electrical-safety-guide.docx": "24a8e218ecedcb30d7b60158f86e20b05cb172263694b317219d30e5e4a025b5",
+      "wifi-connection-troubleshooting-guide.txt": "f4f6a2f22d5f84bc1904d886bd45384471346bece6c2b431a19baf424a5081b0"
+    }
+  },
+  "prompt_version": "v1",
+  "environment": {
+    "python": "3.14.2",
+    "platform": "Linux-6.8.0-1064-azure-x86_64-with-glibc2.39",
+    "git": {
+      "commit": "6877042ac9725acca4724f5c1094de9c9e698fff",
+      "dirty": false
+    },
+    "packages": {
+      "faiss-cpu": "1.15.1",
+      "sentence-transformers": "6.2.0",
+      "openai": "3.3.0",
+      "ragas": "0.4.3",
+      "instructor": "1.17.0",
+      "langchain-community": "0.4.1",
+      "numpy": "2.5.4"
+    }
+  },
+  "ragas": {
+    "ragas_version": "0.4.3",
+    "judge_model": "openai/gpt-oss-120b",
+    "judge_base_url": "https://api.groq.com/openai/v1",
+    "judge_embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "judge_max_tokens": 4096,
+    "judge_api_keys": 9,
+    "same_family_as_generator": true
+  }
+}

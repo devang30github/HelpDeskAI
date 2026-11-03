@@ -11,6 +11,8 @@ os.environ["GROQ_API_KEY"] = ""  # tests must never call the real LLM
 os.environ["KB_DIR"] = f"{_tmp}/kb"
 os.environ["WARMUP_ON_STARTUP"] = "false"
 os.environ["GROQ_API_KEYS"] = ""
+os.environ["PROMPT_VERSION"] = "v1"
+os.environ["RETRIEVER_NAME"] = "dense_v1"
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402

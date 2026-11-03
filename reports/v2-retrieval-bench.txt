@@ -1,0 +1,8 @@
+retriever: hybrid_rrf_v2 | top_k=4 | candidate pool 20
+cold first call: 7209 ms (model load + first search)
+
+30 warm queries:
+  embed           median   14.0 ms   p95   30.2 ms
+  faiss search    median    0.1 ms   p95    1.5 ms
+  bm25 search     median    0.1 ms   p95    0.2 ms
+  retrieve total  median   15.0 ms   p95   31.3 ms

@@ -25,6 +25,13 @@ def _bootstrap_env(argv: list[str]) -> tuple[dict, str]:
         os.environ["RETRIEVAL_TOP_K"] = str(cfg["top_k"])
     if cfg.get("index_dir"):
         os.environ["INDEX_DIR"] = str(Path(cfg["index_dir"]).resolve())
+    # A run must be reproducible from its config alone, so the prompt version never comes from .env.
+    os.environ["PROMPT_VERSION"] = cfg.get("prompt_version", "v1")
+    hybrid = cfg.get("hybrid") or {}
+    for key, env in (("rrf_k", "HYBRID_RRF_K"), ("candidate_k", "HYBRID_CANDIDATE_K"),
+                     ("bm25_k1", "BM25_K1"), ("bm25_b", "BM25_B")):
+        if key in hybrid:
+            os.environ[env] = str(hybrid[key])
     # An evaluation must never touch the real tickets database.
     os.environ["DATABASE_URL"] = f"sqlite:///{tempfile.mkdtemp(prefix='hd-eval-')}/eval.db"
     return cfg, args.config
