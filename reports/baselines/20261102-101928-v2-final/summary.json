@@ -1,0 +1,223 @@
+{
+  "run_id": "20261102-101928-v2-final",
+  "counts": {
+    "items": 44,
+    "answerable": 30,
+    "unanswerable": 14,
+    "unvalidated": 0
+  },
+  "retrieval": {
+    "k_values": [
+      1,
+      3,
+      4,
+      5,
+      10
+    ],
+    "headline_k": 4,
+    "n": 30,
+    "overall": {
+      "n": 30,
+      "hit@1": 1.0,
+      "mrr@1": 1.0,
+      "hit@3": 1.0,
+      "mrr@3": 1.0,
+      "hit@4": 1.0,
+      "mrr@4": 1.0,
+      "hit@5": 1.0,
+      "mrr@5": 1.0,
+      "hit@10": 1.0,
+      "mrr@10": 1.0
+    },
+    "by_type": {
+      "ambiguous": {
+        "n": 4,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "confusable": {
+        "n": 8,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "direct": {
+        "n": 4,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "error_code": {
+        "n": 6,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "multi_chunk": {
+        "n": 8,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      }
+    },
+    "by_category": {
+      "account_access": {
+        "n": 3,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "email_collaboration": {
+        "n": 5,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "facilities_maintenance": {
+        "n": 5,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "general": {
+        "n": 2,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "hardware_peripherals": {
+        "n": 4,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "network_wifi": {
+        "n": 3,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "printing_office_equipment": {
+        "n": 3,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      },
+      "software_applications": {
+        "n": 5,
+        "hit@4": 1.0,
+        "mrr@4": 1.0
+      }
+    }
+  },
+  "generation": {
+    "n_attempted": 44,
+    "n_ok": 44,
+    "n_failed": 0,
+    "failures": []
+  },
+  "abstention": {
+    "n_unanswerable": 14,
+    "n_answerable": 30,
+    "correct_abstentions": 13,
+    "unsupported_answers": 1,
+    "false_abstentions": 1,
+    "total_abstentions": 14,
+    "abstention_recall": 0.9285714285714286,
+    "false_abstention_rate": 0.03333333333333333,
+    "abstention_precision": 0.9285714285714286
+  },
+  "latency_ms": {
+    "retrieval (eval pass)": {
+      "n": 44,
+      "median": 19.11623249998229,
+      "p95": 27.8321540001798,
+      "mean": 20.53610179546116,
+      "max": 30.708964000041306
+    },
+    "retrieval (in pipeline)": {
+      "n": 44,
+      "median": 19.09755499991661,
+      "p95": 30.465420999917114,
+      "mean": 20.760381409063072,
+      "max": 50.74008299993693
+    },
+    "generation": {
+      "n": 44,
+      "median": 860.5472424999334,
+      "p95": 2314.141295999889,
+      "mean": 1042.9458163636386,
+      "max": 2682.0815229998516
+    },
+    "total": {
+      "n": 44,
+      "median": 878.0006710001089,
+      "p95": 2332.6356390000456,
+      "mean": 1063.9100615454709,
+      "max": 2701.145072999907
+    }
+  },
+  "efficiency": {
+    "n_questions": 44,
+    "prompt_tokens": 60021,
+    "completion_tokens": 15892,
+    "total_tokens": 75913,
+    "avg_total_tokens": 1725.2954545454545,
+    "pricing": {
+      "input_per_million_usd": null,
+      "output_per_million_usd": null
+    },
+    "estimated_cost_usd": null
+  },
+  "manual_review": {
+    "unsupported_answers": [
+      {
+        "id": "q075",
+        "question": "Where can I download the Meridian DeskView mobile app for my personal Android phone?",
+        "answer": "The company policy does not allow installing a personal copy of Meridian DeskView from the internet. Instead, you should use the Meridian App Shelf or submit a request for review to obtain the app for your personal Android phone. [2]"
+      }
+    ],
+    "false_abstentions": [
+      {
+        "id": "q046",
+        "question": "The installer for a catalogue app rolls back before launch; it never reaches the sign-in screen. Should I use the runtime cache-cleanup steps?",
+        "answer": "The excerpts do not mention “runtime cache‑cleanup steps.” They advise using the built‑in Refresh command, signing out and back in, and clearing the application’s temporary local cache only through the Settings panel if that option is available."
+      }
+    ]
+  },
+  "ragas": {
+    "judge": {
+      "ragas_version": "0.4.3",
+      "judge_model": "openai/gpt-oss-120b",
+      "judge_base_url": "https://api.groq.com/openai/v1",
+      "judge_embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+      "judge_max_tokens": 4096,
+      "judge_api_keys": 9,
+      "same_family_as_generator": true
+    },
+    "concurrency": 4,
+    "metrics": {
+      "faithfulness": {
+        "n_scored": 29,
+        "n_failed": 0,
+        "n_skipped": 15,
+        "mean": 0.862682241130517,
+        "median": 1.0,
+        "failures": []
+      },
+      "answer_relevancy": {
+        "n_scored": 29,
+        "n_failed": 0,
+        "n_skipped": 15,
+        "mean": 0.5968718778049564,
+        "median": 0.575971444967814,
+        "failures": []
+      },
+      "context_precision": {
+        "n_scored": 30,
+        "n_failed": 0,
+        "n_skipped": 14,
+        "mean": 0.9101851851377161,
+        "median": 0.9999999999,
+        "failures": []
+      },
+      "context_recall": {
+        "n_scored": 30,
+        "n_failed": 0,
+        "n_skipped": 14,
+        "mean": 0.9,
+        "median": 1.0,
+        "failures": []
+      }
+    }
+  }
+}
